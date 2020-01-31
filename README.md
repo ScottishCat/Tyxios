@@ -1,2 +1,2 @@
 # Tyxios
-A Promise-based HTTP Library in TypeScript
+A promise-based HTTP library
