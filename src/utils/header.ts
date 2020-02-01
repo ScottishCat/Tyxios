@@ -1,4 +1,7 @@
-import { isObject } from './universal';
+import { isObject, deepMerge } from './universal';
+import { Method, HttpRequestConfig } from '../types';
+
+const deleteHeaders : string[] = ['delete', 'get', 'head', 'options', 'post', 'put', 'patch', 'common'];
 
 function normalizeHeader(headers : any, normalizedName : string) : void {
     if (!headers) {
@@ -37,4 +40,15 @@ export function parseHeaders(headers : string) : any {
         parsed[key] = value;
     })
     return parsed;
+}
+
+export function flatenHeaders(headers : any, method : Method) : any {
+    if (!headers) {
+        return headers;
+    }
+    headers = deepMerge(headers.common || {}, headers[method] || {}, headers);
+    deleteHeaders.forEach(header => {
+        delete headers[header];
+    })
+    return headers;
 }

@@ -1,6 +1,7 @@
 import { HttpRequestConfig, ResponsePromise, Method, HttpResponseConfig, InterceptorChain } from '../types/index';
 import dispatchRequest from './dispatchRequest';
 import InterceptorManager from './interceptormanager';
+import mergeConfig from './mergeconfig';
 
 export interface TyxiosInterceptor {
     request : InterceptorManager<HttpRequestConfig>
@@ -21,6 +22,7 @@ export default class Tyxios {
     }
 
     request(url : any, config ?: any): ResponsePromise {
+
         if (typeof url === 'string') {
             if (!config) {
                 config = {};
@@ -29,6 +31,8 @@ export default class Tyxios {
         } else {
             config = url;
         }
+
+        config = mergeConfig(this.defaults, config);
 
         const interceptorChain : InterceptorChain<any>[] = [{
             resolved : dispatchRequest,

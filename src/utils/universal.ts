@@ -9,9 +9,30 @@ export function isObject(val: any): val is Object {
     return toString.call(val) === '[object Object]';
 }
 
-export function assign<F, T>(from : F, to : T) : F & T {
+export function assign<F, T>(from: F, to: T): F & T {
     for (let key in from) {
-        ;(to as F & T)[key] = from[key] as any
+        ; (to as F & T)[key] = from[key] as any
     }
     return to as F & T;
+}
+
+export function deepMerge(...objs: any[]): any {
+    const merged = Object.create(null)
+    objs.forEach(obj => {
+        if (obj) {
+          Object.keys(obj).forEach(key => {
+            const val = obj[key]
+            if (isObject(val)) {
+              if (isObject(merged[key])) {
+                merged[key] = deepMerge(merged[key], val)
+              } else {
+                merged[key] = deepMerge({}, val)
+              }
+            } else {
+                merged[key] = val
+            }
+          })
+        }
+      })
+    return merged;
 }

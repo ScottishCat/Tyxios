@@ -1,3 +1,5 @@
+import { transformResponse } from "../utils/data";
+
 export type Method =
     "get" | "GET" |
     "post" | "POST" |
@@ -14,7 +16,11 @@ export interface HttpRequestConfig {
     params?: any,
     headers?: any,
     responseType?: XMLHttpRequestResponseType,
-    timeout?: number
+    timeout?: number,
+    transformRequest ?: TyxiosTransformer | TyxiosTransformer[]
+    transformResponse ?: TyxiosTransformer | TyxiosTransformer[] 
+
+    [propName : string] : any
 }
 
 export interface HttpResponseConfig<T=any> {
@@ -83,4 +89,12 @@ export interface RejectFunction<T> {
 export interface InterceptorChain<T> {
     resolved : ResolveFunction<T> | ((config: HttpRequestConfig) => ResponsePromise) 
     rejected ?: RejectFunction<T>
+}
+
+export interface TyxiosTransformer {
+    (data : any, headers ?: any) : any
+}
+
+export interface TyxiosGenerator extends TyxiosInstance {
+    create(config ?: HttpRequestConfig) : TyxiosInstance
 }
