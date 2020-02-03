@@ -36,3 +36,7 @@ export function deepMerge(...objs: any[]): any {
       })
     return merged;
 }
+
+export function isFormData(val : any) : val is FormData {
+    return typeof val !== 'undefined' && val instanceof FormData;
+}

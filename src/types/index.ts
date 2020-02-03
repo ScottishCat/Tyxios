@@ -17,10 +17,18 @@ export interface HttpRequestConfig {
     headers?: any,
     responseType?: XMLHttpRequestResponseType,
     timeout?: number,
-    transformRequest ?: TyxiosTransformer | TyxiosTransformer[]
-    transformResponse ?: TyxiosTransformer | TyxiosTransformer[] 
+    transformRequest?: TyxiosTransformer | TyxiosTransformer[]
+    transformResponse?: TyxiosTransformer | TyxiosTransformer[]
+    cancelToken?: CancelToken
+    withCredentials ?: boolean
+    xsrfCookieName ?: string
+    xsrfHeaderName ?: string
+    onDownloadProgress ?: (e: ProgressEvent) => void
+    onUploadProgress ?: (e: ProgressEvent) => void
+    auth ?: TyxiosBasicCredential
+    validateStatus ?: (status:number) => boolean
 
-    [propName : string] : any
+    [propName: string]: any
 }
 
 export interface HttpResponseConfig<T=any> {
@@ -46,11 +54,11 @@ export interface HttpError extends Error {
 
 export interface Tyxios {
 
-    defaults : HttpRequestConfig
+    defaults: HttpRequestConfig
 
-    interceptors : {
-        request : TyxiosInterceptorManager<HttpRequestConfig>
-        response : TyxiosInterceptorManager<HttpResponseConfig>
+    interceptors: {
+        request: TyxiosInterceptorManager<HttpRequestConfig>
+        response: TyxiosInterceptorManager<HttpResponseConfig>
     }
 
     request<T=any>(config: HttpRequestConfig): ResponsePromise<T>
@@ -69,32 +77,73 @@ export interface TyxiosInstance extends Tyxios {
 }
 
 export interface TyxiosInterceptorManager<T> {
-    use(resolve : ResolveFunction<T>, reject ?: RejectFunction<T>) : number
-    eject(id : number) : void
+    use(resolve: ResolveFunction<T>, reject?: RejectFunction<T>): number
+    eject(id: number): void
 }
 
 export interface Interceptor<T> {
-    resolved : ResolveFunction<T>
-    rejected ?: RejectFunction<T>
+    resolved: ResolveFunction<T>
+    rejected?: RejectFunction<T>
 }
 
 export interface ResolveFunction<T> {
-    (val : T) : T | Promise<T>
+    (val: T): T | Promise<T>
 }
 
 export interface RejectFunction<T> {
-    (error : any) : any
+    (error: any): any
 }
 
 export interface InterceptorChain<T> {
-    resolved : ResolveFunction<T> | ((config: HttpRequestConfig) => ResponsePromise) 
-    rejected ?: RejectFunction<T>
+    resolved: ResolveFunction<T> | ((config: HttpRequestConfig) => ResponsePromise)
+    rejected?: RejectFunction<T>
 }
 
 export interface TyxiosTransformer {
-    (data : any, headers ?: any) : any
+    (data: any, headers?: any): any
 }
 
 export interface TyxiosGenerator extends TyxiosInstance {
-    create(config ?: HttpRequestConfig) : TyxiosInstance
+    create(config?: HttpRequestConfig): TyxiosInstance
+    CancelToken : CancelTokenGenerator
+    Cancel : CancelGenerator
+    isCancel:(val : any) => boolean
+}
+
+export interface CancelToken {
+    promise: Promise<Cancel>
+    reason?: Cancel
+    
+    throwIfRequested() : void
+}
+
+export interface CancelFunction {
+    (message?: string): void
+}
+
+export interface CancelExecutor {
+    (cancel: CancelFunction): void
+}
+
+export interface CancelTokenSource {
+    token: CancelToken
+    cancel: CancelFunction
+}
+
+export interface CancelTokenGenerator {
+    new(executor: CancelExecutor): CancelToken
+    source(): CancelTokenSource
+}
+
+export interface Cancel {
+    message ?: string
+}
+
+export interface CancelGenerator {
+    new (message ?: string) : Cancel
+}
+
+export interface TyxiosBasicCredential {
+    username : string
+    password : string
 }

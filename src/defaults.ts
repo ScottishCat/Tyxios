@@ -20,7 +20,13 @@ const defaults : HttpRequestConfig = {
     }],
     transformResponse : [function(data : any) : any {
         return transformResponse(data);
-    }]
+    }],
+    xsrfCookieName : 'XSRF-TOKEN',
+    xsrfHeaderName : 'XSRF-HEADER',
+
+    validateStatus : function (status: number) : boolean {
+        return status >= 200 && status < 300;
+    }
 }
 
 methodsWithoutData.forEach(method => {

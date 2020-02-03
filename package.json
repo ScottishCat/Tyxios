@@ -127,7 +127,21 @@
     "qs": "^6.9.1"
   },
   "dependencies": {
+    "@types/atob": "^2.1.2",
+    "@types/body-parser": "^1.17.1",
+    "@types/cookie-parser": "^1.4.2",
+    "@types/nprogress": "^0.2.0",
     "@types/qs": "^6.9.0",
-    "qs": "^6.9.1"
+    "@types/uuid": "^3.4.7",
+    "@types/webpack": "^4.41.4",
+    "@types/webpack-dev-middleware": "^2.0.3",
+    "@types/webpack-hot-middleware": "^2.25.0",
+    "atob": "^2.1.2",
+    "connect-multiparty": "^2.2.0",
+    "cookie-parser": "^1.4.4",
+    "css-loader": "^3.4.2",
+    "nprogress": "^0.2.0",
+    "qs": "^6.9.1",
+    "style-loader": "^1.1.3"
   }
 }

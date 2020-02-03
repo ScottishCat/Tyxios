@@ -4,7 +4,7 @@ import { isObject, deepMerge } from "../utils/universal";
 const mergeMethod = Object.create(null);
 
 const ignoreDefaultMergeKeys = ['url', 'params', 'data'];
-const complexMergeKeys = ['headers'];
+const complexMergeKeys = ['headers', 'auth'];
 
 ignoreDefaultMergeKeys.forEach(key => {
     mergeMethod[key] = ignoreDefaultMerge;

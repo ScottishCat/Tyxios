@@ -61,3 +61,17 @@ export function buildUrl(url: string, params?: any): string {
 
     return url
 }
+
+export function isSameOrigin(requestURL: string): boolean {
+    const parsedOrigin = resolveURL(requestURL);
+    return (parsedOrigin === currentOrigin);
+}
+
+const urlParsingNode = document.createElement('a');
+const currentOrigin = resolveURL(window.location.href);
+
+function resolveURL(url: string) : string {
+    urlParsingNode.setAttribute('href', url);
+    const { origin } = urlParsingNode;
+    return origin;
+}

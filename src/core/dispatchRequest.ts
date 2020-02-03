@@ -6,6 +6,7 @@ import transform from './transform';
 import xhr from './xhr'
 
 export default function dispatchRequest(config: HttpRequestConfig): ResponsePromise {
+    throwIfRequested(config);
     processConfig(config);
     return xhr(config).then((res: any) => {
         return transformResponseData(res);
@@ -26,4 +27,10 @@ function transformUrl(config: HttpRequestConfig): string {
 function transformResponseData(response: HttpResponseConfig): HttpResponseConfig {
     response.data = transform(response.data, response.headers, response.config.transformResponse);
     return response;
+}
+
+function throwIfRequested(config: HttpRequestConfig) : void {
+    if (config.cancelToken) {
+        config.cancelToken.throwIfRequested();
+    }
 }
