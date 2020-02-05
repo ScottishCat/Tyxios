@@ -55,7 +55,7 @@ function complexMerge(field1: any, field2: any): any {
         return field2;
     } else if (isObject(field1)) {
         return deepMerge(field1);
-    } else if (typeof field1 !== 'undefined') {
+    } else {
         return field1;
     }
 }

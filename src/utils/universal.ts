@@ -1,3 +1,4 @@
+
 // cache of Object.prototype.toString
 const toString = Object.prototype.toString;
 
@@ -9,7 +10,7 @@ export function isObject(val: any): val is Object {
     return toString.call(val) === '[object Object]';
 }
 
-export function assign<F, T>(from: F, to: T): F & T {
+export function assign<F, T>(to: F, from: T): F & T {
     for (let key in from) {
         ; (to as F & T)[key] = from[key] as any
     }
@@ -39,4 +40,8 @@ export function deepMerge(...objs: any[]): any {
 
 export function isFormData(val : any) : val is FormData {
     return typeof val !== 'undefined' && val instanceof FormData;
+}
+
+export function isURLSearchParams(val: any): val is URLSearchParams {
+    return typeof val !== 'undefined' && val instanceof URLSearchParams;
 }

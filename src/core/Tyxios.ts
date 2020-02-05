@@ -1,5 +1,5 @@
 import { HttpRequestConfig, ResponsePromise, Method, HttpResponseConfig, InterceptorChain } from '../types/index';
-import dispatchRequest from './dispatchRequest';
+import dispatchRequest, {transformUrl} from './dispatchRequest';
 import InterceptorManager from './interceptormanager';
 import mergeConfig from './mergeconfig';
 
@@ -33,6 +33,7 @@ export default class Tyxios {
         }
 
         config = mergeConfig(this.defaults, config);
+        config.method = config.method.toLowerCase();
 
         const interceptorChain : InterceptorChain<any>[] = [{
             resolved : dispatchRequest,
@@ -98,5 +99,10 @@ export default class Tyxios {
 
     patch(url: string, data?: any, config?: HttpRequestConfig): ResponsePromise {
         return this._requestWithData(url, 'patch', config, data);
+    }
+
+    getUri(config ?: HttpRequestConfig) : string {
+        config = mergeConfig(this.defaults, config);
+        return transformUrl(config);
     }
 }

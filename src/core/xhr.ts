@@ -7,10 +7,10 @@ import { isFormData } from '../utils/universal';
 
 export default function xhr(config: HttpRequestConfig): ResponsePromise {
     return new Promise((resolve, reject) => {
-        const { url, method = "GET", data = null, params = null, headers, responseType, timeout, cancelToken, withCredentials, xsrfCookieName, xsrfHeaderName, onDownloadProgress, onUploadProgress, auth, validateStatus } = config;
+        const { url, method, data = null, params = null, headers = {}, responseType, timeout, cancelToken, withCredentials, xsrfCookieName, xsrfHeaderName, onDownloadProgress, onUploadProgress, auth, validateStatus } = config;
         const request = new XMLHttpRequest();
 
-        request.open(method.toUpperCase(), url!, true);
+        request.open(method!.toUpperCase(), url!, true);
 
         configRequest()
         addEvents()
@@ -54,7 +54,7 @@ export default function xhr(config: HttpRequestConfig): ResponsePromise {
                 }
 
                 const responseHeaders = parseHeaders(request.getAllResponseHeaders());
-                const responseData = responseType === 'text' ? request.responseText : request.response;
+                const responseData = responseType && responseType !== 'text' ? request.response : request.responseText
                 const response: HttpResponseConfig = {
                     data: responseData,
                     status: request.status,
@@ -68,12 +68,12 @@ export default function xhr(config: HttpRequestConfig): ResponsePromise {
 
             // 处理网络异常
             request.onerror = () => {
-                reject(createHttpError("Network Error !", config, null, request));
+                reject(createHttpError("Network Error", config, null, request));
             }
 
             // 处理超时异常
             request.ontimeout = () => {
-                reject(createHttpError(`Timeout of ${timeout} exceeded`, config, 'ECONNABORTED', request));
+                reject(createHttpError(`Timeout of ${timeout} ms exceeded`, config, 'ECONNABORTED', request));
             }
 
             if (onDownloadProgress) {

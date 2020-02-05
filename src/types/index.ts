@@ -27,6 +27,8 @@ export interface HttpRequestConfig {
     onUploadProgress ?: (e: ProgressEvent) => void
     auth ?: TyxiosBasicCredential
     validateStatus ?: (status:number) => boolean
+    paramsSerializer ?: (params : any) => string
+    baseURL ?: string
 
     [propName: string]: any
 }
@@ -37,7 +39,7 @@ export interface HttpResponseConfig<T=any> {
     statusText: string,
     headers: any,
     config: HttpRequestConfig,
-    request: XMLHttpRequest
+    request: XMLHttpRequest | null
 }
 
 export interface ResponsePromise<T=any> extends Promise<HttpResponseConfig<T>> {
@@ -60,7 +62,7 @@ export interface Tyxios {
         request: TyxiosInterceptorManager<HttpRequestConfig>
         response: TyxiosInterceptorManager<HttpResponseConfig>
     }
-
+    getUri (config ?: HttpRequestConfig) : string
     request<T=any>(config: HttpRequestConfig): ResponsePromise<T>
     get<T=any>(url: string, config?: HttpRequestConfig): ResponsePromise<T>
     delete<T=any>(url: string, config?: HttpRequestConfig): ResponsePromise<T>
@@ -108,6 +110,9 @@ export interface TyxiosGenerator extends TyxiosInstance {
     CancelToken : CancelTokenGenerator
     Cancel : CancelGenerator
     isCancel:(val : any) => boolean
+    all<T> (promises : Array<T | Promise<T>>) : Promise<T[]>
+    spread<T, R>(callback: (...args: T[]) => R): (arr: T[]) => R
+    Tyxios : TyxiosGenerator
 }
 
 export interface CancelToken {

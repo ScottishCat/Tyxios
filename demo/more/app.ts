@@ -2,6 +2,7 @@ import tyxios from '../../src/index'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
 import {HttpError} from '../../src/types'
+import qs from 'qs'
 
 // document.cookie = 'a=b'
 
@@ -95,18 +96,58 @@ import {HttpError} from '../../src/types'
 //     console.log(res)
 //   })
 
-tyxios.get('/more/304').then(res => {
-    console.log(res)
-  }).catch((e: HttpError) => {
-    console.log(e.message)
-  })
+// tyxios.get('/more/304').then(res => {
+//     console.log(res)
+//   }).catch((e: HttpError) => {
+//     console.log(e.message)
+//   })
   
-  tyxios.get('/more/304', {
-    validateStatus(status) {
-      return status >= 200 && status < 400
-    }
-  }).then(res => {
-    console.log(res)
-  }).catch((e: HttpError) => {
-    console.log(e.message)
-  })
+//   tyxios.get('/more/304', {
+//     validateStatus(status) {
+//       return status >= 200 && status < 400
+//     }
+//   }).then(res => {
+//     console.log(res)
+//   }).catch((e: HttpError) => {
+//     console.log(e.message)
+//   })
+
+// tyxios.get('/more/get', {
+//     params: new URLSearchParams('a=b&c=d')
+//   }).then(res => {
+//     console.log(res)
+//   })
+  
+//   tyxios.get('/more/get', {
+//     params: {
+//       a: 1,
+//       b: 2,
+//       c: ['a', 'b', 'c']
+//     }
+//   }).then(res => {
+//     console.log(res)
+//   })
+  
+//   const instance = tyxios.create({
+//     paramsSerializer(params) {
+//       return qs.stringify(params, { arrayFormat: 'brackets' })
+//     }
+//   })
+  
+//   instance.get('/more/get', {
+//     params: {
+//       a: 1,
+//       b: 2,
+//       c: ['a', 'b', 'c']
+//     }
+//   }).then(res => {
+//     console.log(res)
+//   })
+
+// const instance = tyxios.create({
+//   baseURL: 'https://img.mukewang.com/'
+// })
+
+// instance.get('5cc01a7b0001a33718720632.jpg')
+
+// instance.get('https://img.mukewang.com/szimg/5becd5ad0001b89306000338-360-202.jpg')

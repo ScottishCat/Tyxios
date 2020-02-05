@@ -1,5 +1,5 @@
 import { HttpRequestConfig, ResponsePromise, HttpResponseConfig } from '../types/index';
-import { buildUrl } from '../utils/url';
+import { buildUrl, isAbsolute, concatUrl } from '../utils/url';
 import { transformResponse } from '../utils/data';
 import { flatenHeaders } from '../utils/header';
 import transform from './transform';
@@ -8,9 +8,17 @@ import xhr from './xhr'
 export default function dispatchRequest(config: HttpRequestConfig): ResponsePromise {
     throwIfRequested(config);
     processConfig(config);
-    return xhr(config).then((res: any) => {
-        return transformResponseData(res);
-    });
+    return xhr(config).then(
+        res => {
+            return transformResponseData(res);
+        },
+        e => {
+            if (e && e.response) {
+                e.response = transformResponseData(e.response)
+            }
+            return Promise.reject(e)
+        }
+    )
 }
 
 function processConfig(config: HttpRequestConfig): void {
@@ -19,9 +27,12 @@ function processConfig(config: HttpRequestConfig): void {
     config.headers = flatenHeaders(config.headers, config.method!);
 }
 
-function transformUrl(config: HttpRequestConfig): string {
-    const { url, params } = config;
-    return buildUrl(url!, params);
+export function transformUrl(config: HttpRequestConfig): string {
+    let { url, params, paramsSerializer, baseURL } = config;
+    if (baseURL && !isAbsolute(url!)) {
+        url = concatUrl(baseURL, url)
+    }
+    return buildUrl(url!, params, paramsSerializer);
 }
 
 function transformResponseData(response: HttpResponseConfig): HttpResponseConfig {
@@ -29,7 +40,7 @@ function transformResponseData(response: HttpResponseConfig): HttpResponseConfig
     return response;
 }
 
-function throwIfRequested(config: HttpRequestConfig) : void {
+function throwIfRequested(config: HttpRequestConfig): void {
     if (config.cancelToken) {
         config.cancelToken.throwIfRequested();
     }

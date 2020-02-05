@@ -6,6 +6,7 @@ export class HttpError extends Error {
     request?: XMLHttpRequest
     response?: HttpResponseConfig
 
+    /* istanbul ignore next */
     constructor(message: string,
         config: HttpRequestConfig,
         code?: string | null,

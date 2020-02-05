@@ -9,7 +9,7 @@ import Cancel, {isCancel} from './cancel/Cancel';
 export function createInstance(config: HttpRequestConfig) : TyxiosGenerator{
     const context = new Tyxios(config);
     const instance = Tyxios.prototype.request.bind(context);
-    assign(context, instance);
+    assign(instance, context);
     return instance as TyxiosGenerator;
 }
 
@@ -21,5 +21,18 @@ tyxios.create = function (config) {
 tyxios.CancelToken = CancelToken
 tyxios.Cancel = Cancel
 tyxios.isCancel = isCancel
+
+tyxios.all = function all(promises) {
+    return Promise.all(promises);
+}
+
+tyxios.spread = function spread(callback) {
+    return function wrapper(arr) {
+        return callback.apply(null,arr);
+    }
+}
+
+tyxios.Tyxios = tyxios
+
 
 export default tyxios;
