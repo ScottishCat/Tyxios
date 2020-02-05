@@ -24,4 +24,15 @@ describe('progress', () => {
     })
   })
 
+  test('should add a upload progress handler', () => {
+    const progressSpy = jest.fn()
+
+    tyxios('/foo', { onUploadProgress: progressSpy })
+
+    return getAjaxRequest().then(request => {
+      // Jasmine AJAX doesn't not support upload events, skip this test
+      // expect(progressSpy).toHaveBeenCalled()
+    })
+  })
+
 })

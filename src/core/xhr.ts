@@ -7,7 +7,7 @@ import { isFormData } from '../utils/universal';
 
 export default function xhr(config: HttpRequestConfig): ResponsePromise {
     return new Promise((resolve, reject) => {
-        const { url, method, data = null, params = null, headers = {}, responseType, timeout, cancelToken, withCredentials, xsrfCookieName, xsrfHeaderName, onDownloadProgress, onUploadProgress, auth, validateStatus } = config;
+        const { url, method, data = null, headers = {}, responseType, timeout, cancelToken, withCredentials, xsrfCookieName, xsrfHeaderName, onDownloadProgress, onUploadProgress, auth, validateStatus } = config;
         const request = new XMLHttpRequest();
 
         request.open(method!.toUpperCase(), url!, true);
