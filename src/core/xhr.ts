@@ -28,12 +28,10 @@ export default function xhr(config: HttpRequestConfig): ResponsePromise {
         }
 
         function configRequest(): void {
-            // 设置Response类型
             if (responseType) {
                 request.responseType = responseType;
             }
 
-            // 设置超时阈值
             if (timeout) {
                 request.timeout = timeout;
             }
@@ -66,12 +64,10 @@ export default function xhr(config: HttpRequestConfig): ResponsePromise {
                 handleResponse(response);
             }
 
-            // 处理网络异常
             request.onerror = () => {
                 reject(createHttpError("Network Error", config, null, request));
             }
 
-            // 处理超时异常
             request.ontimeout = () => {
                 reject(createHttpError(`Timeout of ${timeout} ms exceeded`, config, 'ECONNABORTED', request));
             }

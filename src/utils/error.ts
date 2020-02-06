@@ -15,7 +15,6 @@ export class HttpError extends Error {
     ) {
         super(message);
 
-        // 手动设置原型
         Object.setPrototypeOf(this, HttpError.prototype);
 
         this.config = config;

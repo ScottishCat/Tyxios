@@ -1,6 +1,5 @@
 import { HttpRequestConfig, ResponsePromise, HttpResponseConfig } from '../types/index';
 import { buildUrl, isAbsolute, concatUrl } from '../utils/url';
-import { transformResponse } from '../utils/data';
 import { flatenHeaders } from '../utils/header';
 import transform from './transform';
 import xhr from './xhr'

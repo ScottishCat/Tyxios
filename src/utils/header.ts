@@ -1,5 +1,5 @@
 import { isObject, deepMerge } from './universal';
-import { Method, HttpRequestConfig } from '../types';
+import { Method } from '../types';
 
 const deleteHeaders : string[] = ['delete', 'get', 'head', 'options', 'post', 'put', 'patch', 'common'];
 

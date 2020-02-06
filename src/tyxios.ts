@@ -1,4 +1,4 @@
-import { TyxiosInstance, HttpRequestConfig, TyxiosGenerator } from './types/index';
+import { HttpRequestConfig, TyxiosGenerator } from './types/index';
 import Tyxios from './core/Tyxios';
 import { assign } from './utils/universal';
 import defaults from './defaults';

@@ -40,7 +40,6 @@ export function buildUrl(url: string, params?: any, paramsSerializer?: (params: 
 
             let values = [];
 
-            // Convert params into array type
             if (Array.isArray(params[key])) {
                 values = params[key];
                 key += '[]';
